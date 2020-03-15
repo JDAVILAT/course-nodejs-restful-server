@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const app = express();
 const bodyParser = require('body-parser');
 
+app.use('/fotos', express.static(__dirname + '/fotos'));
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
