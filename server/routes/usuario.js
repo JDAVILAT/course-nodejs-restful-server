@@ -10,9 +10,9 @@ app.get('/', (req, res) => {
 
 app.get('/user/:skip?/:limit?', function(req, res) {
     let _skip = req.params.skip || req.query.skip || 0;
-    _skip = Number.isInteger(_skip) ? Number(_skip) : 0;
+    _skip = Number(_skip);
     let _limit = req.params.limit || req.query.limit || 5;
-    _limit = Number.isInteger(_limit) ? Number(_limit) : 5;
+    _limit = Number(_limit);
     let conditions = { status: true };
     User.find(conditions, 'name mail role status google')
         .skip(_skip)
