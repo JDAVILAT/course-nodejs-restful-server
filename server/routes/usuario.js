@@ -8,13 +8,35 @@ app.get('/', (req, res) => {
     res.json('Inicio de la aplicacion');
 });
 
-app.get('/users', function(req, res) {
-    res.json('get users');
+app.get('/user/:skip?/:limit?', function(req, res) {
+    let _skip = req.params.skip || req.query.skip || 0;
+    _skip = Number.isInteger(_skip) ? Number(_skip) : 0;
+    let _limit = req.params.limit || req.query.limit || 5;
+    _limit = Number.isInteger(_limit) ? Number(_limit) : 5;
+    let conditions = { status: true };
+    User.find(conditions, 'name mail role status google')
+        .skip(_skip)
+        .limit(_limit)
+        .exec((err, users) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err
+                });
+            }
+            User.count(conditions, (err, countUsers) => {
+                res.json({
+                    ok: true,
+                    totalRows: countUsers,
+                    users
+                });
+            })
+        });
 });
 
-app.get('/ereslamujerdemivida', function(req, res) {
-    res.sendFile(__dirname + '/lesly.html');
-});
+// app.get('/ereslamujerdemivida', function(req, res) {
+//     res.sendFile(__dirname + '/lesly.html');
+// });
 
 app.post('/user', (req, res) => {
     let body = req.body;
@@ -38,12 +60,12 @@ app.post('/user', (req, res) => {
                 user: userDB
             });
         }
-    })
+    });
 });
 
 app.put('/user/:id', function(req, res) {
     let id = req.params.id;
-    let body = req.body;
+    let body = _.pick(req.body, ['name', 'mail', 'image', 'role', 'status']);
 
     User.findByIdAndUpdate(id, body, { new: true, runValidators: true }, (err, responseUser) => {
         if (err) {
@@ -59,8 +81,20 @@ app.put('/user/:id', function(req, res) {
     });
 });
 
-app.delete('/user', (req, res) => {
-    res.json('delete user');
+app.delete('/user/:id', (req, res) => {
+    let id = req.params.id;
+    User.findByIdAndUpdate(id, { status: false }, { new: true }, (err, resultUser) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+        res.json({
+            ok: true,
+            user: resultUser
+        });
+    });
 });
 
 module.exports = app;
