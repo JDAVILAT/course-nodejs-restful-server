@@ -17,7 +17,7 @@ process.env.PORT = process.env.PORT || 3000;
 let urlDataBase;
 
 if (process.env.NODE_ENV) {
-    urlDataBase = 'mongodb+srv://jjordandt:u8iPKIk233BgfQfF@cluster0-47a4i.mongodb.net/coffee';
+    urlDataBase = process.env.MONGO_URI;
 } else {
     urlDataBase = 'mongodb://localhost:27017/coffee';
 }
