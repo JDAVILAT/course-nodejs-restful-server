@@ -13,7 +13,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // app.use(express.json());
 
-app.use(require('./routes/usuario'));
+// CONGIGURACIÓN DE RUTAS GLOBALES
+app.use(require('./routes/index'));
 
 mongoose.connect(process.env.URL_DB, {
     useNewUrlParser: true,

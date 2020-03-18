@@ -2,17 +2,25 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const User = require('../models/user');
+const { verifyToken } = require('../middlewares/authentication');
+const { validateRoleAdmin } = require('../middlewares/validations');
 const app = express();
+
+// app.get('/ereslamujerdemivida', function(req, res) {
+//     res.sendFile(__dirname + '/lesly.html');
+// });
 
 app.get('/', (req, res) => {
     res.json('Inicio de la aplicacion');
 });
 
-app.get('/user/:skip?/:limit?', function(req, res) {
+app.get('/api/user/:skip?/:limit?', [verifyToken], (req, res) => {
     let _skip = req.params.skip || req.query.skip || 0;
     _skip = Number(_skip);
+    _skip = !Number.isInteger(_skip) ? 0 : _skip;
     let _limit = req.params.limit || req.query.limit || 5;
     _limit = Number(_limit);
+    _limit = !Number.isInteger(_limit) ? 5 : _limit;
     let conditions = { status: true };
     User.find(conditions, 'name mail role status google')
         .skip(_skip)
@@ -34,11 +42,7 @@ app.get('/user/:skip?/:limit?', function(req, res) {
         });
 });
 
-// app.get('/ereslamujerdemivida', function(req, res) {
-//     res.sendFile(__dirname + '/lesly.html');
-// });
-
-app.post('/user', (req, res) => {
+app.post('/api/user', [verifyToken, validateRoleAdmin], (req, res) => {
     let body = req.body;
 
     let _user = new User({
@@ -63,7 +67,7 @@ app.post('/user', (req, res) => {
     });
 });
 
-app.put('/user/:id', function(req, res) {
+app.put('/api/user/:id', [verifyToken, validateRoleAdmin], (req, res) => {
     let id = req.params.id;
     let body = _.pick(req.body, ['name', 'mail', 'image', 'role', 'status']);
 
@@ -81,7 +85,7 @@ app.put('/user/:id', function(req, res) {
     });
 });
 
-app.delete('/user/:id', (req, res) => {
+app.delete('/api/user/:id', [verifyToken, validateRoleAdmin], (req, res) => {
     let id = req.params.id;
     User.findByIdAndUpdate(id, { status: false }, { new: true }, (err, resultUser) => {
         if (err) {
