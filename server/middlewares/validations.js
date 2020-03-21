@@ -6,7 +6,7 @@ validations.validateRoleAdmin = (req, res, next) => {
         return res.status(400).json({
             ok: false,
             err: {
-                message: 'El usuario no es administrador'
+                message: 'The user is not an administrator.'
             }
         });
     }

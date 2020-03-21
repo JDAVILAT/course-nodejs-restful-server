@@ -6,10 +6,6 @@ const { verifyToken } = require('../middlewares/authentication');
 const { validateRoleAdmin } = require('../middlewares/validations');
 const app = express();
 
-// app.get('/ereslamujerdemivida', function(req, res) {
-//     res.sendFile(__dirname + '/lesly.html');
-// });
-
 app.get('/', (req, res) => {
     res.json('Inicio de la aplicacion');
 });
