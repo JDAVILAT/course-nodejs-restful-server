@@ -18,7 +18,8 @@ process.env.PORT = process.env.PORT || 3000;
  * 30 days - días
  */
 
-process.env.EXPIRATION_TOKEN = 60 * 60 * 24 * 30;
+// process.env.EXPIRATION_TOKEN = 60 * 60 * 24 * 30;
+process.env.EXPIRATION_TOKEN = '48h';
 
 /**
  * SEMILLA DE AUTENTICACIÓN TOKEN

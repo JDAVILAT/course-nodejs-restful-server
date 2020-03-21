@@ -33,7 +33,7 @@ app.get('/api/category', verifyToken, (req, res) => {
             });
         }
 
-        Category.count(conditions, (err2, countCategories) => {
+        Category.countDocuments(conditions, (err2, countCategories) => {
             if (err2) {
                 return res.status(400).json({
                     ok: false,

@@ -28,7 +28,7 @@ app.get('/api/user/:skip?/:limit?', [verifyToken], (req, res) => {
                     err
                 });
             }
-            User.count(conditions, (err, countUsers) => {
+            User.countDocuments(conditions, (err, countUsers) => {
                 res.json({
                     ok: true,
                     totalRows: countUsers,

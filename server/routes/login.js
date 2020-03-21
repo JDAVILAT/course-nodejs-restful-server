@@ -29,7 +29,7 @@ app.post('/api/login', (req, res) => {
         } else {
             let token = jwt.sign({
                 user: resUser
-            }, process.env.SEED, { expiresIn: process.env.EXPIRATION_TOKEN })
+            }, process.env.SEED, { expiresIn: process.env.EXPIRATION_TOKEN });
             res.json({
                 ok: true,
                 user: resUser,

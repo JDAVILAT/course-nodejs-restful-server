@@ -39,6 +39,8 @@ let userSchema = new Schema({
         type: Boolean,
         default: false
     }
+}, {
+    collection: 'user'
 });
 
 userSchema.methods.toJSON = function() {

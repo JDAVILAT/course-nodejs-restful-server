@@ -27,6 +27,8 @@ let categorySchema = new mongoose.Schema({
         type: Date,
         default: null
     }
+}, {
+    collection: 'category'
 });
 
 // categorySchema.methods.toJSON = function() {
